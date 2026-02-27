@@ -15,7 +15,7 @@ export default function FAQ() {
     return (
         <main>
             <Navbar />
-            <section style={{ padding: '120px 0 80px', backgroundColor: 'var(--bg-light)' }}>
+            <section className="page-header" style={{ padding: '120px 0 80px', backgroundColor: 'var(--bg-light)' }}>
                 <div className="container" style={{ maxWidth: '800px' }}>
                     <h1 className="section-title">Frequently Asked Questions</h1>
                     <div style={{ marginTop: '3rem', display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>

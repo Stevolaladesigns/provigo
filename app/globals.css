@@ -147,6 +147,10 @@ h6 {
   section {
     padding: 60px 0 !important;
   }
+
+  section.page-header {
+    padding-top: 120px !important;
+  }
 }
 
 @media (max-width: 480px) {
@@ -175,4 +179,24 @@ section {
   animation: fadeInUp 0.8s ease-out forwards;
   opacity: 0;
   /* Ensure sections stay hidden until animation triggers */
+}
+
+.pricing-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
+}
+
+.pricing-card.highlighted:hover {
+  transform: scale(1.05) translateY(-8px);
+  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.2);
+}
+
+@media (max-width: 968px) {
+  .pricing-card.highlighted {
+    transform: none;
+  }
+
+  .pricing-card.highlighted:hover {
+    transform: translateY(-8px);
+  }
 }

@@ -2,13 +2,73 @@
 
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import { useState } from 'react';
+
+const BACKEND_URL = 'https://dashboard.provigogh.com';
+
+// Define expected order shape based on backend schema
+interface OrderDetails {
+    id: string;
+    status: string;
+    packageDetails: any[];
+    amount: number;
+    deliveryAddress: string;
+    orderDate: string;
+    updatedAt: string;
+}
 
 export default function TrackOrder() {
+    const [orderId, setOrderId] = useState('');
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState<string | null>(null);
+    const [orderData, setOrderData] = useState<OrderDetails | null>(null);
+
+    const handleTrackOrder = async () => {
+        if (!orderId.trim()) {
+            setError("Please enter a valid Order ID");
+            return;
+        }
+
+        setLoading(true);
+        setError(null);
+        setOrderData(null);
+
+        try {
+            const response = await fetch(`${BACKEND_URL}/api/track?orderId=${orderId.trim()}`);
+            const data = await response.json();
+
+            if (response.ok && data.order) {
+                setOrderData(data.order);
+            } else {
+                setError(data.error || "Order not found");
+            }
+        } catch (err) {
+            console.error("Network or server error:", err);
+            setError("Network error. Please try again later.");
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    // Helper to format the timeline based on status
+    const getStatusSteps = (status: string) => {
+        const statuses = ['pending', 'paid', 'processing', 'delivered'];
+        let currentIndex = statuses.indexOf(status.toLowerCase());
+        if (currentIndex === -1) currentIndex = 0; // Default to pending if unknown
+
+        return [
+            { label: 'Order Placed & Pending', status: currentIndex >= 0 ? (currentIndex > 0 ? 'completed' : 'current') : 'pending' },
+            { label: 'Payment Verified', status: currentIndex >= 1 ? (currentIndex > 1 ? 'completed' : 'current') : 'pending' },
+            { label: 'Package Processing', status: currentIndex >= 2 ? (currentIndex > 2 ? 'completed' : 'current') : 'pending' },
+            { label: 'Delivered', status: currentIndex >= 3 ? 'completed' : 'pending' }
+        ];
+    };
+
     return (
         <main>
             <Navbar />
 
-            <section className="responsive-section" style={{ padding: '120px 0 80px', backgroundColor: 'var(--bg-light)', minHeight: '80vh' }}>
+            <section className="responsive-section page-header" style={{ padding: '120px 0 80px', backgroundColor: 'var(--bg-light)', minHeight: '80vh' }}>
                 <div className="container">
                     <div style={{ maxWidth: '700px', margin: '0 auto' }}>
                         <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
@@ -23,6 +83,9 @@ export default function TrackOrder() {
                                 <input
                                     type="text"
                                     placeholder="Enter Order ID"
+                                    value={orderId}
+                                    onChange={(e) => setOrderId(e.target.value)}
+                                    onKeyDown={(e) => e.key === 'Enter' && handleTrackOrder()}
                                     style={{
                                         flex: 1,
                                         padding: '1rem 1.5rem',
@@ -32,58 +95,153 @@ export default function TrackOrder() {
                                         outline: 'none'
                                     }}
                                 />
-                                <button className="btn-primary" style={{ padding: '0 2rem', minHeight: '56px' }}>
-                                    Track
+                                <button
+                                    onClick={handleTrackOrder}
+                                    className="btn-primary"
+                                    disabled={loading}
+                                    style={{ padding: '0 2rem', minHeight: '56px', opacity: loading ? 0.7 : 1 }}
+                                >
+                                    {loading ? 'Tracking...' : 'Track'}
                                 </button>
                             </div>
 
-                            <div style={{ textAlign: 'left', marginTop: '3rem' }}>
-                                <h4 style={{ marginBottom: '2rem', fontSize: '1.25rem' }}>Order Status</h4>
+                            {error && (
+                                <div style={{ color: 'red', marginTop: '1rem', padding: '1rem', backgroundColor: '#ffe6e6', borderRadius: '12px' }}>
+                                    {error}
+                                </div>
+                            )}
 
-                                <div style={{ display: 'flex', flexDirection: 'column', gap: '0' }}>
-                                    {[
-                                        { label: 'Payment Verified', status: 'completed', date: 'Oct 12, 10:30 AM' },
-                                        { label: 'Package Prepared', status: 'completed', date: 'Oct 12, 02:15 PM' },
-                                        { label: 'Direct School Delivery', status: 'current', date: 'Estimated: Oct 13' },
-                                        { label: 'Real-time Tracking', status: 'pending', date: '--' }
-                                    ].map((step, idx, arr) => (
-                                        <div key={idx} style={{ display: 'flex', gap: '1.5rem', position: 'relative' }}>
-                                            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                                                <div style={{
-                                                    width: '24px',
-                                                    height: '24px',
-                                                    borderRadius: '50%',
-                                                    backgroundColor: step.status === 'completed' || step.status === 'current' ? 'var(--primary)' : '#E2E8F0',
-                                                    border: step.status === 'current' ? '4px solid rgba(0, 153, 51, 0.2)' : 'none',
-                                                    zIndex: 2
-                                                }} />
-                                                {idx !== arr.length - 1 && (
-                                                    <div style={{
-                                                        width: '2px',
-                                                        flex: 1,
-                                                        backgroundColor: step.status === 'completed' ? 'var(--primary)' : '#E2E8F0',
-                                                        margin: '4px 0',
-                                                        minHeight: '40px'
-                                                    }} />
-                                                )}
-                                            </div>
-                                            <div style={{ paddingBottom: '2.5rem', flex: 1 }}>
-                                                <h5 style={{
-                                                    fontSize: '1.1rem',
-                                                    margin: 0,
-                                                    color: step.status === 'pending' ? 'var(--text-light)' : 'var(--text-dark)',
-                                                    fontWeight: step.status === 'current' ? '800' : '600'
-                                                }}>
-                                                    {step.label}
-                                                </h5>
-                                                <p style={{ fontSize: '0.85rem', color: 'var(--text-light)', margin: '4px 0 0' }}>
-                                                    {step.date}
-                                                </p>
+                            {orderData && (
+                                <div style={{ textAlign: 'left', marginTop: '3rem' }}>
+                                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '2rem', flexWrap: 'wrap', gap: '1rem' }}>
+                                        <div>
+                                            <h4 style={{ fontSize: '1.25rem', marginBottom: '0.5rem' }}>Order Details</h4>
+                                            <p style={{ margin: 0, color: 'var(--text-gray)' }}>ID: <strong style={{ color: 'var(--text-dark)' }}>{orderData.id}</strong></p>
+                                        </div>
+                                        <div style={{ textAlign: 'right' }}>
+                                            <div style={{
+                                                display: 'inline-block',
+                                                padding: '4px 12px',
+                                                borderRadius: '20px',
+                                                fontSize: '0.85rem',
+                                                fontWeight: 'bold',
+                                                backgroundColor: orderData.status.toLowerCase() === 'delivered' ? '#d4edda' : 'rgba(0, 153, 51, 0.1)',
+                                                color: orderData.status.toLowerCase() === 'delivered' ? '#155724' : 'var(--primary)',
+                                                textTransform: 'uppercase'
+                                            }}>
+                                                {orderData.status}
                                             </div>
                                         </div>
-                                    ))}
+                                    </div>
+
+                                    <div style={{ display: 'flex', flexDirection: 'column', gap: '0', backgroundColor: 'white', padding: '2rem', borderRadius: '16px', border: '1px solid #E2E8F0' }}>
+                                        <div style={{ display: 'flex', flexDirection: 'column', gap: '0' }}>
+                                            {getStatusSteps(orderData.status).map((step, idx, arr) => (
+                                                <div key={idx} style={{ display: 'flex', gap: '1.5rem', position: 'relative' }}>
+                                                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                                                        <div style={{
+                                                            width: '24px',
+                                                            height: '24px',
+                                                            borderRadius: '50%',
+                                                            backgroundColor: step.status === 'completed' || step.status === 'current' ? 'var(--primary)' : '#E2E8F0',
+                                                            border: step.status === 'current' ? '4px solid rgba(0, 153, 51, 0.2)' : 'none',
+                                                            zIndex: 2
+                                                        }} />
+                                                        {idx !== arr.length - 1 && (
+                                                            <div style={{
+                                                                width: '2px',
+                                                                flex: 1,
+                                                                backgroundColor: step.status === 'completed' ? 'var(--primary)' : '#E2E8F0',
+                                                                margin: '4px 0',
+                                                                minHeight: '40px'
+                                                            }} />
+                                                        )}
+                                                    </div>
+                                                    <div style={{ paddingBottom: '2.5rem', flex: 1 }}>
+                                                        <h5 style={{
+                                                            fontSize: '1.1rem',
+                                                            margin: 0,
+                                                            color: step.status === 'pending' ? 'var(--text-light)' : 'var(--text-dark)',
+                                                            fontWeight: step.status === 'current' ? '800' : '600'
+                                                        }}>
+                                                            {step.label}
+                                                        </h5>
+                                                        {step.status === 'current' && (
+                                                            <p style={{ fontSize: '0.85rem', color: 'var(--text-light)', margin: '4px 0 0' }}>
+                                                                Current active step
+                                                            </p>
+                                                        )}
+                                                    </div>
+                                                </div>
+                                            ))}
+                                        </div>
+
+                                        <div style={{ marginTop: '2rem', paddingTop: '2rem', borderTop: '1px solid #E2E8F0' }}>
+                                            <h5 style={{ fontSize: '1.1rem', marginBottom: '1rem' }}>Order Information</h5>
+                                            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem' }}>
+                                                <div>
+                                                    <p style={{ fontSize: '0.85rem', color: 'var(--text-light)', margin: '0 0 4px' }}>Amount Paid</p>
+                                                    <p style={{ fontWeight: '600', margin: 0 }}>GH₵ {orderData.amount}</p>
+                                                </div>
+                                                <div>
+                                                    <p style={{ fontSize: '0.85rem', color: 'var(--text-light)', margin: '0 0 4px' }}>Order Date</p>
+                                                    <p style={{ fontWeight: '600', margin: 0 }}>{new Date(orderData.orderDate).toLocaleDateString()}</p>
+                                                </div>
+                                                <div style={{ gridColumn: '1 / -1' }}>
+                                                    <p style={{ fontSize: '0.85rem', color: 'var(--text-light)', margin: '0 0 4px' }}>Delivery Address</p>
+                                                    <p style={{ fontWeight: '600', margin: 0 }}>{orderData.deliveryAddress || 'N/A'}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
+                            )}
+
+                            {!orderData && !loading && (
+                                <div style={{ textAlign: 'left', marginTop: '3rem', opacity: 0.5 }}>
+                                    <h4 style={{ marginBottom: '2rem', fontSize: '1.25rem' }}>Example Order Status</h4>
+                                    <div style={{ display: 'flex', flexDirection: 'column', gap: '0' }}>
+                                        {[
+                                            { label: 'Order Placed', status: 'completed' },
+                                            { label: 'Payment Verified', status: 'completed' },
+                                            { label: 'Package Processing', status: 'current' },
+                                            { label: 'Delivered', status: 'pending' }
+                                        ].map((step, idx, arr) => (
+                                            <div key={idx} style={{ display: 'flex', gap: '1.5rem', position: 'relative' }}>
+                                                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                                                    <div style={{
+                                                        width: '24px',
+                                                        height: '24px',
+                                                        borderRadius: '50%',
+                                                        backgroundColor: step.status === 'completed' || step.status === 'current' ? 'var(--primary)' : '#E2E8F0',
+                                                        border: step.status === 'current' ? '4px solid rgba(0, 153, 51, 0.2)' : 'none',
+                                                        zIndex: 2
+                                                    }} />
+                                                    {idx !== arr.length - 1 && (
+                                                        <div style={{
+                                                            width: '2px',
+                                                            flex: 1,
+                                                            backgroundColor: step.status === 'completed' ? 'var(--primary)' : '#E2E8F0',
+                                                            margin: '4px 0',
+                                                            minHeight: '40px'
+                                                        }} />
+                                                    )}
+                                                </div>
+                                                <div style={{ paddingBottom: '2.5rem', flex: 1 }}>
+                                                    <h5 style={{
+                                                        fontSize: '1.1rem',
+                                                        margin: 0,
+                                                        color: step.status === 'pending' ? 'var(--text-light)' : 'var(--text-dark)',
+                                                        fontWeight: step.status === 'current' ? '800' : '600'
+                                                    }}>
+                                                        {step.label}
+                                                    </h5>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            )}
                         </div>
 
                         <div className="hint-box" style={{ marginTop: '3rem', padding: '2rem', borderRadius: '24px', border: '1px dashed var(--primary)', textAlign: 'center' }}>

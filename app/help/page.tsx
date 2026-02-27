@@ -7,7 +7,7 @@ export default function Help() {
     return (
         <main>
             <Navbar />
-            <section style={{ padding: '120px 0 80px', backgroundColor: 'var(--bg-light)' }}>
+            <section className="page-header" style={{ padding: '120px 0 80px', backgroundColor: 'var(--bg-light)' }}>
                 <div className="container" style={{ maxWidth: '800px', textAlign: 'center' }}>
                     <h1 className="section-title">Help Center</h1>
                     <p className="section-subtitle">Need assistance with your order? We're here to help.</p>

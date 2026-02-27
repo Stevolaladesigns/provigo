@@ -8,7 +8,7 @@ export default function Contact() {
         <main>
             <Navbar />
 
-            <section style={{ padding: '120px 0 80px', backgroundColor: 'var(--bg-light)' }}>
+            <section className="page-header" style={{ padding: '120px 0 80px', backgroundColor: 'var(--bg-light)' }}>
                 <div className="container">
                     <div style={{ maxWidth: '800px', margin: '0 auto', textAlign: 'center' }}>
                         <h1 className="section-title">

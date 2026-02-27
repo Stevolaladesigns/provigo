@@ -118,38 +118,121 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Why Families Choose us Section */}
+      {/* Our Packages Section */}
       <section style={{ padding: '100px 0', backgroundColor: 'white' }}>
         <div className="container">
           <div style={{ textAlign: 'center', marginBottom: '4rem' }}>
-            <h2 className="section-title">Why Families Choose ProviGo</h2>
+            <h2 className="section-title">Our Packages</h2>
+            <p className="section-subtitle">
+              Choose from our curated provision bundles.
+            </p>
           </div>
 
-          <div className="feature-grid" style={{
+          <div style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
-            gap: '2rem'
+            gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+            gap: '2rem',
+            alignItems: 'center'
           }}>
-            <Card
-              icon={<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" /></svg>}
-              title="Save Time"
-              description="Skip the market traffic and packing stress entirely."
-            />
-            <Card
-              icon={<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" /></svg>}
-              title="Reliable Delivery"
-              description="Guaranteed delivery directly to your ward's school campus."
-            />
-            <Card
-              icon={<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 1v22M5 5h14M5 19h14M22 9h-4a3 3 0 0 0-3 3v0a3 3 0 0 0 3 3h4M2 9h4a3 3 0 0 1 3 3v0a3 3 0 0 1-3 3H2" /></svg>}
-              title="Affordable Bundles"
-              description="Best value for money with our curated provision packages."
-            />
-            <Card
-              icon={<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z" /></svg>}
-              title="No Internet Required"
-              description="Accessible to everyone, everywhere via USSD codes."
-            />
+            {/* Starter Package */}
+            <div style={{
+              backgroundColor: 'white',
+              borderRadius: '24px',
+              padding: '2.5rem',
+              boxShadow: 'var(--card-shadow)',
+              border: '2px solid var(--primary)',
+              transition: 'transform 0.3s ease',
+              display: 'flex',
+              flexDirection: 'column',
+              height: '100%'
+            }} className="pricing-card">
+              <h3 style={{ fontSize: '1.5rem', color: 'var(--text-dark)', marginBottom: '0.5rem' }}>Starter</h3>
+              <div style={{ display: 'flex', alignItems: 'baseline', gap: '4px', marginBottom: '2rem' }}>
+                <span style={{ fontSize: '1.2rem', fontWeight: 'bold', color: 'var(--primary)' }}>GH₵</span>
+                <span style={{ fontSize: '3rem', fontWeight: '900', color: 'var(--text-dark)', lineHeight: '1' }}>350</span>
+              </div>
+              <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '1rem', flex: 1 }}>
+                {['Milo & Nido', 'Gari & Sugar', 'Shito', 'Biscuits', 'Basic Toiletries'].map((item, i) => (
+                  <li key={i} style={{ display: 'flex', alignItems: 'center', gap: '10px', color: 'var(--text-gray)' }}>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Ready Box Package */}
+            <div style={{
+              backgroundColor: 'var(--text-dark)',
+              borderRadius: '24px',
+              padding: '3rem 2.5rem',
+              boxShadow: '0 20px 40px rgba(0,0,0,0.15)',
+              border: '2px solid var(--primary)',
+              color: 'white',
+              position: 'relative',
+              transform: 'scale(1.05)',
+              zIndex: 10,
+              display: 'flex',
+              flexDirection: 'column',
+              height: '100%'
+            }} className="pricing-card highlighted">
+              <div style={{
+                position: 'absolute',
+                top: '-15px',
+                left: '50%',
+                transform: 'translateX(-50%)',
+                backgroundColor: 'var(--primary)',
+                color: 'white',
+                padding: '4px 16px',
+                borderRadius: '20px',
+                fontSize: '0.85rem',
+                fontWeight: 'bold',
+                letterSpacing: '1px',
+                textTransform: 'uppercase'
+              }}>
+                Most Popular
+              </div>
+              <h3 style={{ fontSize: '1.5rem', color: 'white', marginBottom: '0.5rem' }}>Ready Box</h3>
+              <div style={{ display: 'flex', alignItems: 'baseline', gap: '4px', marginBottom: '2rem' }}>
+                <span style={{ fontSize: '1.2rem', fontWeight: 'bold', color: 'var(--primary)' }}>GH₵</span>
+                <span style={{ fontSize: '3rem', fontWeight: '900', color: 'white', lineHeight: '1' }}>580</span>
+              </div>
+              <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '1rem', flex: 1 }}>
+                {['Everything in Starter', 'Milk & Assorted Drinks', 'Variety of Snacks', 'Notebooks & Stationery', 'Extra Toiletries'].map((item, i) => (
+                  <li key={i} style={{ display: 'flex', alignItems: 'center', gap: '10px', color: 'rgba(255,255,255,0.85)' }}>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Dadabee Package */}
+            <div style={{
+              backgroundColor: 'white',
+              borderRadius: '24px',
+              padding: '2.5rem',
+              boxShadow: 'var(--card-shadow)',
+              border: '2px solid var(--primary)',
+              transition: 'transform 0.3s ease',
+              display: 'flex',
+              flexDirection: 'column',
+              height: '100%'
+            }} className="pricing-card">
+              <h3 style={{ fontSize: '1.5rem', color: 'var(--text-dark)', marginBottom: '0.5rem' }}>Dadabee</h3>
+              <div style={{ display: 'flex', alignItems: 'baseline', gap: '4px', marginBottom: '2rem' }}>
+                <span style={{ fontSize: '1.2rem', fontWeight: 'bold', color: 'var(--primary)' }}>GH₵</span>
+                <span style={{ fontSize: '3rem', fontWeight: '900', color: 'var(--text-dark)', lineHeight: '1' }}>780</span>
+              </div>
+              <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '1rem', flex: 1 }}>
+                {['Double Milo & Nido', 'Cornflakes', 'Plenty of Snacks', '15 Exercise Books', 'Huge Soap & Toiletry Pack'].map((item, i) => (
+                  <li key={i} style={{ display: 'flex', alignItems: 'center', gap: '10px', color: 'var(--text-gray)' }}>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
         </div>
       </section>

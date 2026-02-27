@@ -7,7 +7,7 @@ export default function Terms() {
     return (
         <main>
             <Navbar />
-            <section style={{ padding: '120px 0 80px', backgroundColor: 'var(--bg-light)' }}>
+            <section className="page-header" style={{ padding: '120px 0 80px', backgroundColor: 'var(--bg-light)' }}>
                 <div className="container" style={{ maxWidth: '800px' }}>
                     <h1 className="section-title">Terms of Service</h1>
                     <div className="glass" style={{ padding: '3rem', borderRadius: '32px', marginTop: '3rem', color: 'var(--text-gray)', lineHeight: '1.8' }}>
