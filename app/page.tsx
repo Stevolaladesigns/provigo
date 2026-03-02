@@ -158,7 +158,7 @@ export default function Home() {
               boxShadow: 'var(--card-shadow)'
             }}>
               <Image
-                src="/images/ussd.jpeg"
+                src="/images/ussd.jpg"
                 alt="How to Order"
                 fill
                 style={{ objectFit: 'cover' }}

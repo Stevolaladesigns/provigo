@@ -2,8 +2,58 @@
 
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import { useState } from 'react';
 
 export default function Contact() {
+    const [formData, setFormData] = useState({
+        fullName: '',
+        email: '',
+        inquiryType: 'Order Assistance',
+        message: ''
+    });
+    const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
+    const [errorMessage, setErrorMessage] = useState('');
+
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+        const { name, value } = e.target;
+        setFormData(prev => ({ ...prev, [name]: value }));
+    };
+
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setStatus('loading');
+        setErrorMessage('');
+
+        try {
+            const response = await fetch('/api/contact', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData),
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                setStatus('success');
+                setFormData({
+                    fullName: '',
+                    email: '',
+                    inquiryType: 'Order Assistance',
+                    message: ''
+                });
+            } else {
+                setStatus('error');
+                setErrorMessage(data.error || 'Failed to send message.');
+            }
+        } catch (error) {
+            console.error('Submission error:', error);
+            setStatus('error');
+            setErrorMessage('Network error. Please try again later.');
+        }
+    };
+
     return (
         <main>
             <Navbar />
@@ -68,56 +118,131 @@ export default function Contact() {
                             boxShadow: 'var(--card-shadow)'
                         }}>
                             <h3 style={{ fontSize: '1.75rem', marginBottom: '2rem' }}>Send us a Message</h3>
-                            <form style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-                                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1.5rem' }}>
-                                    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                                        <label style={{ fontSize: '0.9rem', fontWeight: 'bold' }}>Full Name</label>
-                                        <input type="text" placeholder="John Doe" style={{
-                                            padding: '0.8rem 1rem',
-                                            borderRadius: '12px',
-                                            border: '1px solid #E2E8F0',
-                                            outline: 'none'
-                                        }} />
-                                    </div>
-                                    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                                        <label style={{ fontSize: '0.9rem', fontWeight: 'bold' }}>Email Address</label>
-                                        <input type="email" placeholder="john@example.com" style={{
-                                            padding: '0.8rem 1rem',
-                                            borderRadius: '12px',
-                                            border: '1px solid #E2E8F0',
-                                            outline: 'none'
-                                        }} />
-                                    </div>
-                                </div>
-                                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                                    <label style={{ fontSize: '0.9rem', fontWeight: 'bold' }}>Inquiry Type</label>
-                                    <select style={{
-                                        padding: '0.8rem 1rem',
-                                        borderRadius: '12px',
-                                        border: '1px solid #E2E8F0',
-                                        outline: 'none',
-                                        backgroundColor: 'white'
+
+                            {status === 'success' ? (
+                                <div style={{
+                                    padding: '3rem 2rem',
+                                    textAlign: 'center',
+                                    backgroundColor: 'rgba(0, 153, 51, 0.05)',
+                                    borderRadius: '24px',
+                                    border: '1px solid var(--primary)'
+                                }}>
+                                    <div style={{
+                                        width: '64px',
+                                        height: '64px',
+                                        borderRadius: '50%',
+                                        backgroundColor: 'var(--primary)',
+                                        color: 'white',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        margin: '0 auto 1.5rem'
                                     }}>
-                                        <option>Order Assistance</option>
-                                        <option>Delivery Inquiry</option>
-                                        <option>Payment Support</option>
-                                        <option>Other</option>
-                                    </select>
+                                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                                    </div>
+                                    <h4 style={{ marginBottom: '1rem' }}>Message Sent!</h4>
+                                    <p style={{ color: 'var(--text-gray)', marginBottom: '2rem' }}>Thank you for reaching out. Our team will get back to you shortly.</p>
+                                    <button
+                                        onClick={() => setStatus('idle')}
+                                        className="btn-primary"
+                                        style={{ padding: '0.8rem 2rem' }}
+                                    >
+                                        Send Another Message
+                                    </button>
                                 </div>
-                                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                                    <label style={{ fontSize: '0.9rem', fontWeight: 'bold' }}>Your Message</label>
-                                    <textarea rows={5} placeholder="Tell us how we can help..." style={{
-                                        padding: '0.8rem 1rem',
-                                        borderRadius: '12px',
-                                        border: '1px solid #E2E8F0',
-                                        outline: 'none',
-                                        resize: 'none'
-                                    }}></textarea>
-                                </div>
-                                <button type="submit" className="btn-primary" style={{ width: 'fit-content', padding: '1rem 3rem' }}>
-                                    SEND MESSAGE ➔
-                                </button>
-                            </form>
+                            ) : (
+                                <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+                                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1.5rem' }}>
+                                        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                                            <label style={{ fontSize: '0.9rem', fontWeight: 'bold' }}>Full Name</label>
+                                            <input
+                                                type="text"
+                                                name="fullName"
+                                                value={formData.fullName}
+                                                onChange={handleInputChange}
+                                                required
+                                                placeholder="John Doe"
+                                                style={{
+                                                    padding: '0.8rem 1rem',
+                                                    borderRadius: '12px',
+                                                    border: '1px solid #E2E8F0',
+                                                    outline: 'none'
+                                                }}
+                                            />
+                                        </div>
+                                        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                                            <label style={{ fontSize: '0.9rem', fontWeight: 'bold' }}>Email Address</label>
+                                            <input
+                                                type="email"
+                                                name="email"
+                                                value={formData.email}
+                                                onChange={handleInputChange}
+                                                required
+                                                placeholder="john@example.com"
+                                                style={{
+                                                    padding: '0.8rem 1rem',
+                                                    borderRadius: '12px',
+                                                    border: '1px solid #E2E8F0',
+                                                    outline: 'none'
+                                                }}
+                                            />
+                                        </div>
+                                    </div>
+                                    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                                        <label style={{ fontSize: '0.9rem', fontWeight: 'bold' }}>Inquiry Type</label>
+                                        <select
+                                            name="inquiryType"
+                                            value={formData.inquiryType}
+                                            onChange={handleInputChange}
+                                            style={{
+                                                padding: '0.8rem 1rem',
+                                                borderRadius: '12px',
+                                                border: '1px solid #E2E8F0',
+                                                outline: 'none',
+                                                backgroundColor: 'white'
+                                            }}
+                                        >
+                                            <option>Order Assistance</option>
+                                            <option>Delivery Inquiry</option>
+                                            <option>Payment Support</option>
+                                            <option>Other</option>
+                                        </select>
+                                    </div>
+                                    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                                        <label style={{ fontSize: '0.9rem', fontWeight: 'bold' }}>Your Message</label>
+                                        <textarea
+                                            name="message"
+                                            value={formData.message}
+                                            onChange={handleInputChange}
+                                            required
+                                            rows={5}
+                                            placeholder="Tell us how we can help..."
+                                            style={{
+                                                padding: '0.8rem 1rem',
+                                                borderRadius: '12px',
+                                                border: '1px solid #E2E8F0',
+                                                outline: 'none',
+                                                resize: 'none'
+                                            }}
+                                        ></textarea>
+                                    </div>
+
+                                    {status === 'error' && (
+                                        <p style={{ color: 'red', fontSize: '0.9rem', margin: 0 }}>
+                                            {errorMessage || 'Something went wrong. Please try again.'}
+                                        </p>
+                                    )}
+
+                                    <button
+                                        type="submit"
+                                        className="btn-primary"
+                                        disabled={status === 'loading'}
+                                        style={{ width: 'fit-content', padding: '1rem 3rem', opacity: status === 'loading' ? 0.7 : 1 }}
+                                    >
+                                        {status === 'loading' ? 'SENDING...' : 'SEND MESSAGE ➔'}
+                                    </button>
+                                </form>
+                            )}
                         </div>
                     </div>
                 </div>
