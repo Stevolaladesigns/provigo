@@ -18,7 +18,7 @@ export default function Packages() {
             />
 
             {/* Pricing Section */}
-            <section className="responsive-section" style={{ padding: '80px 0', backgroundColor: 'white' }}>
+            <section id="packages" className="responsive-section" style={{ padding: '80px 0', backgroundColor: 'white' }}>
                 <div className="container">
                     <div className="responsive-grid" style={{
                         display: 'grid',
@@ -28,45 +28,48 @@ export default function Packages() {
                     }}>
                         <Card
                             variant="pricing"
-                            title="Starter Package"
-                            description="Best for: Basic term support. Essential food and toiletries to get the term started."
-                            price="350"
+                            title="Starter"
+                            description="Best for: Basic term support. Essential breakfast, food and hygiene items to get the term started."
+                            price="420"
                             features={[
-                                "Milo, Nido, Sugar",
-                                "Gari, Shito, Biscuits",
-                                "Essential Toiletries",
+                                "Bfast: 1 Milo Tin, 1 Nido Tin, Sugar, Gari 5kg",
+                                "Food: 12pcs Kivo Gari, Shito, Sardine/Mackerel",
+                                "Hygiene: T-roll, Geisha Soap ×3",
                                 "Fast Campus Delivery"
                             ]}
                             badge="Recommended"
+                            orderLink="/order?package=starter"
                         />
                         <Card
                             variant="pricing"
                             title="Ready Box"
-                            description="Best for: Balanced provision support. A comprehensive package for the hungry student."
-                            price="580"
+                            description="Best for: Balanced provision support. A fuller package with snacks, drinks, and extra hygiene."
+                            price="680"
                             features={[
-                                "Everything in Starter",
-                                "Milk, Drinks, Snacks",
-                                "Notebooks & Pens",
-                                "Additional toiletries",
+                                "Bfast: 1 Milo Tin, 1 Nido Tin, Sugar, Gari 5kg",
+                                "Food: 12pcs Kivo Gari, Shito, 5 Sardine/Mackerel",
+                                "Snacks: Tampico 1pk, 15pcs Kalyppo, Soda Biscuit ×2",
+                                "Hygiene: T-roll, Dettol ×1, Geisha Soap ×5, Washing Powder ×1",
                                 "Priority Handling"
                             ]}
                             recommended={true}
                             badge="Popular Choice"
+                            orderLink="/order?package=readybox"
                         />
                         <Card
                             variant="pricing"
-                            title="Dadabee Package"
-                            description="Best for: Complete term preparation. The premium choice with double the essentials."
-                            price="780"
+                            title="Dada Bee"
+                            description="Best for: Complete term preparation. The premium choice with double the essentials and school supplies."
+                            price="950"
                             features={[
-                                "Double Milo/Nido",
-                                "Cornflakes & Assorted snacks",
-                                "15 Exercise books",
-                                "Large toiletries bundle",
-                                "Premium Support"
+                                "Bfast: 2 Milo, 2 Nido, Sugar, Gari 5kg, Cornflakes ×1",
+                                "Food: 24pcs Kivo Gari, Shito, 8 Sardine, 7 Mackerel",
+                                "Snacks: Tampico 2pk, 20pcs Kalyppo, Soda Biscuit ×4",
+                                "Hygiene: T-roll, Dettol ×1, Geisha Soap ×5, W. Powder ×2",
+                                "Extra: Snappy Nut, Afterwash ×1, 15 Exercise books, 3 Notebooks"
                             ]}
                             badge="Premium"
+                            orderLink="/order?package=dadabee"
                         />
                     </div>
                 </div>
@@ -127,7 +130,7 @@ export default function Packages() {
                             </p>
                         </div>
                         <div style={{ display: 'flex', gap: '1rem', alignItems: 'center', flexWrap: 'wrap' }}>
-                            <Link href="tel:*920*332#" className="btn-secondary" style={{ backgroundColor: 'white', color: 'var(--text-dark)', border: 'none', padding: '1rem 2.5rem' }}>
+                            <Link href="#packages" className="btn-secondary" style={{ backgroundColor: 'white', color: 'var(--text-dark)', border: 'none', padding: '1rem 2.5rem' }}>
                                 Order Now
                             </Link>
                             <Link href="/how-it-works" style={{ color: 'white', fontWeight: '600', textDecoration: 'underline' }}>

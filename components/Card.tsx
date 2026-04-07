@@ -12,6 +12,7 @@ interface CardProps {
     features?: string[];
     recommended?: boolean;
     badge?: string;
+    orderLink?: string;
 }
 
 const Card = ({
@@ -22,7 +23,8 @@ const Card = ({
     price,
     features,
     recommended,
-    badge
+    badge,
+    orderLink
 }: CardProps) => {
     return (
         <div className={`card ${recommended ? 'recommended' : ''}`} style={{
@@ -82,14 +84,23 @@ const Card = ({
                     </div>
                     {features && (
                         <ul style={{ listStyle: 'none', marginBottom: '2rem' }}>
-                            {features.map((f, i) => (
-                                <li key={i} style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '0.75rem', fontSize: '0.9rem' }}>
-                                    <span style={{ color: 'var(--primary)' }}>✓</span> {f}
-                                </li>
-                            ))}
+                            {features.map((f, i) => {
+                                const colonIdx = f.indexOf(':');
+                                const hasLabel = colonIdx > 0 && colonIdx < 12;
+                                return (
+                                    <li key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: '8px', marginBottom: '0.75rem', fontSize: '0.9rem', lineHeight: '1.5' }}>
+                                        <span style={{ color: 'var(--primary)', marginTop: '2px', flexShrink: 0 }}>✓</span>
+                                        {hasLabel ? (
+                                            <span>
+                                                <strong>{f.slice(0, colonIdx)}:</strong>{f.slice(colonIdx + 1)}
+                                            </span>
+                                        ) : f}
+                                    </li>
+                                );
+                            })}
                         </ul>
                     )}
-                    <Link href="tel:*920*332#" style={{ textDecoration: 'none', display: 'block', width: '100%' }}>
+                    <Link href={orderLink || "tel:*920*332#"} style={{ textDecoration: 'none', display: 'block', width: '100%' }}>
                         <button className={recommended ? 'btn-primary' : 'btn-secondary'} style={{ width: '100%' }}>
                             Select Package
                         </button>

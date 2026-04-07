@@ -16,11 +16,10 @@ const Navbar = () => {
     }, [isOpen]);
 
     const navLinks = [
-        { name: 'Home', href: '/' },
+        { name: 'About', href: '/about' },
         { name: 'Packages', href: '/packages' },
         { name: 'How It Works', href: '/how-it-works' },
         { name: 'Track Order', href: '/track-order' },
-        { name: 'About', href: '/about' },
         { name: 'Contact', href: '/contact' },
     ];
 
@@ -64,9 +63,6 @@ const Navbar = () => {
                                 {link.name}
                             </Link>
                         ))}
-                        <Link href="tel:*920*332#" className="btn-primary" style={{ padding: '0.6rem 1.5rem', fontSize: '0.9rem' }}>
-                            Get Started
-                        </Link>
                     </div>
 
                     {/* Mobile Toggle */}
@@ -157,14 +153,6 @@ const Navbar = () => {
                             {link.name}
                         </Link>
                     ))}
-                    <Link
-                        href="tel:*920*332#"
-                        className="btn-primary"
-                        onClick={() => setIsOpen(false)}
-                        style={{ marginTop: '1.5rem', width: '100%', textAlign: 'center' }}
-                    >
-                        Get Started Now
-                    </Link>
                 </div>
             </div>
 

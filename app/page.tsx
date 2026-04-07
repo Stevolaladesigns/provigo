@@ -17,7 +17,7 @@ export default function Home() {
         subtitle="Reliable and fast provision delivery service for Senior High School students across Ghana. Support your child's education without the travel stress."
         imageSrc="/images/hero.png"
         ctaText="Get Started Now"
-        ctaLink="tel:*920*332#"
+        ctaLink="/packages"
         secondaryCtaText="Learn More"
         secondaryCtaLink="/how-it-works"
       />
@@ -39,6 +39,7 @@ export default function Home() {
             alignItems: 'center'
           }}>
             {/* Starter Package */}
+            <Link href="/order?package=starter" style={{ textDecoration: 'none', display: 'block' }}>
             <div style={{
               backgroundColor: 'white',
               borderRadius: '24px',
@@ -48,24 +49,31 @@ export default function Home() {
               transition: 'transform 0.3s ease',
               display: 'flex',
               flexDirection: 'column',
-              height: '100%'
+              height: '100%',
+              cursor: 'pointer'
             }} className="pricing-card">
               <h3 style={{ fontSize: '1.5rem', color: 'var(--text-dark)', marginBottom: '0.5rem' }}>Starter</h3>
               <div style={{ display: 'flex', alignItems: 'baseline', gap: '4px', marginBottom: '2rem' }}>
                 <span style={{ fontSize: '1.2rem', fontWeight: 'bold', color: 'var(--primary)' }}>GH₵</span>
-                <span style={{ fontSize: '3rem', fontWeight: '900', color: 'var(--text-dark)', lineHeight: '1' }}>350</span>
+                <span style={{ fontSize: '3rem', fontWeight: '900', color: 'var(--text-dark)', lineHeight: '1' }}>420</span>
               </div>
-              <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '1rem', flex: 1 }}>
-                {['Milo & Nido', 'Gari & Sugar', 'Shito', 'Biscuits', 'Basic Toiletries'].map((item, i) => (
-                  <li key={i} style={{ display: 'flex', alignItems: 'center', gap: '10px', color: 'var(--text-gray)' }}>
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                    {item}
+              <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '0.75rem', flex: 1 }}>
+                {[
+                  { label: 'Bfast', value: '1 Milo Tin, 1 Nido Tin, Sugar, Gari 5kg' },
+                  { label: 'Food', value: '12pcs Kivo Gari, Shito, Sardine/Mackerel' },
+                  { label: 'Hygiene', value: 'T-roll, Geisha Soap ×3' }
+                ].map((item, i) => (
+                  <li key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', color: 'var(--text-gray)', fontSize: '0.92rem', lineHeight: '1.5' }}>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginTop: '3px', flexShrink: 0 }}><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    <span><strong>{item.label}:</strong> {item.value}</span>
                   </li>
                 ))}
               </ul>
             </div>
+            </Link>
 
             {/* Ready Box Package */}
+            <Link href="/order?package=readybox" style={{ textDecoration: 'none', display: 'block' }}>
             <div style={{
               backgroundColor: 'var(--text-dark)',
               borderRadius: '24px',
@@ -99,19 +107,26 @@ export default function Home() {
               <h3 style={{ fontSize: '1.5rem', color: 'white', marginBottom: '0.5rem' }}>Ready Box</h3>
               <div style={{ display: 'flex', alignItems: 'baseline', gap: '4px', marginBottom: '2rem' }}>
                 <span style={{ fontSize: '1.2rem', fontWeight: 'bold', color: 'var(--primary)' }}>GH₵</span>
-                <span style={{ fontSize: '3rem', fontWeight: '900', color: 'white', lineHeight: '1' }}>580</span>
+                <span style={{ fontSize: '3rem', fontWeight: '900', color: 'white', lineHeight: '1' }}>680</span>
               </div>
-              <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '1rem', flex: 1 }}>
-                {['Everything in Starter', 'Milk & Assorted Drinks', 'Variety of Snacks', 'Notebooks & Stationery', 'Extra Toiletries'].map((item, i) => (
-                  <li key={i} style={{ display: 'flex', alignItems: 'center', gap: '10px', color: 'rgba(255,255,255,0.85)' }}>
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                    {item}
+              <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '0.75rem', flex: 1 }}>
+                {[
+                  { label: 'Bfast', value: '1 Milo Tin, 1 Nido Tin, Sugar, Gari 5kg' },
+                  { label: 'Food', value: '12pcs Kivo Gari, Shito, 5 Sardine/Mackerel' },
+                  { label: 'Snacks', value: 'Tampico 1pk, 15pcs Kalyppo, Soda Biscuit ×2' },
+                  { label: 'Hygiene', value: 'T-roll, Dettol ×1, Geisha Soap ×5, Washing Powder ×1' }
+                ].map((item, i) => (
+                  <li key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', color: 'rgba(255,255,255,0.85)', fontSize: '0.92rem', lineHeight: '1.5' }}>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginTop: '3px', flexShrink: 0 }}><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    <span><strong>{item.label}:</strong> {item.value}</span>
                   </li>
                 ))}
               </ul>
             </div>
+            </Link>
 
             {/* Dadabee Package */}
+            <Link href="/order?package=dadabee" style={{ textDecoration: 'none', display: 'block' }}>
             <div style={{
               backgroundColor: 'white',
               borderRadius: '24px',
@@ -123,20 +138,27 @@ export default function Home() {
               flexDirection: 'column',
               height: '100%'
             }} className="pricing-card">
-              <h3 style={{ fontSize: '1.5rem', color: 'var(--text-dark)', marginBottom: '0.5rem' }}>Dadabee</h3>
+              <h3 style={{ fontSize: '1.5rem', color: 'var(--text-dark)', marginBottom: '0.5rem' }}>Dada Bee</h3>
               <div style={{ display: 'flex', alignItems: 'baseline', gap: '4px', marginBottom: '2rem' }}>
                 <span style={{ fontSize: '1.2rem', fontWeight: 'bold', color: 'var(--primary)' }}>GH₵</span>
-                <span style={{ fontSize: '3rem', fontWeight: '900', color: 'var(--text-dark)', lineHeight: '1' }}>780</span>
+                <span style={{ fontSize: '3rem', fontWeight: '900', color: 'var(--text-dark)', lineHeight: '1' }}>950</span>
               </div>
-              <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '1rem', flex: 1 }}>
-                {['Double Milo & Nido', 'Cornflakes', 'Plenty of Snacks', '15 Exercise Books', 'Huge Soap & Toiletry Pack'].map((item, i) => (
-                  <li key={i} style={{ display: 'flex', alignItems: 'center', gap: '10px', color: 'var(--text-gray)' }}>
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                    {item}
+              <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '0.75rem', flex: 1 }}>
+                {[
+                  { label: 'Bfast', value: '2 Milo, 2 Nido, Sugar, Gari 5kg, Cornflakes ×1' },
+                  { label: 'Food', value: '24pcs Kivo Gari, Shito, 8 Sardine, 7 Mackerel' },
+                  { label: 'Snacks', value: 'Tampico 2pk, 20pcs Kalyppo, Soda Biscuit ×4' },
+                  { label: 'Hygiene', value: 'T-roll, Dettol ×1, Geisha Soap ×5, W. Powder ×2' },
+                  { label: 'Extra', value: 'Snappy Nut, Afterwash ×1, 15 Exercise books, 3 Notebooks' }
+                ].map((item, i) => (
+                  <li key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', color: 'var(--text-gray)', fontSize: '0.92rem', lineHeight: '1.5' }}>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginTop: '3px', flexShrink: 0 }}><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    <span><strong>{item.label}:</strong> {item.value}</span>
                   </li>
                 ))}
               </ul>
             </div>
+            </Link>
           </div>
         </div>
       </section>

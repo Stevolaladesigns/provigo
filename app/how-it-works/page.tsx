@@ -120,8 +120,7 @@ export default function HowItWorks() {
                     <h2 className="section-title">Ready to send provisions?</h2>
                     <p className="section-subtitle">Join thousands of parents who trust ProviGo for their children's school supply needs.</p>
                     <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
-                        <Link href="tel:*920*332#" className="btn-primary">Start Your Order</Link>
-                        <Link href="/packages" className="btn-secondary">View Packages</Link>
+                        <Link href="/packages" className="btn-primary">Start Your Order</Link>
                     </div>
                 </div>
             </section>
