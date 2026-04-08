@@ -131,7 +131,7 @@ function OrderPageContent() {
                     package: selectedPkg.name,
                     source: 'web'
                 },
-                callback: function(response: any) {
+                callback: function (response: any) {
                     // Verify payment & redirect to success securely
                     fetch('/api/paystack/verify?reference=' + response.reference)
                         .then(() => {
@@ -141,7 +141,7 @@ function OrderPageContent() {
                             window.location.href = '/order/success?ref=' + response.reference + '&pkg=' + encodeURIComponent(selectedPkg.name) + '&school=' + encodeURIComponent(form.school) + '&student=' + encodeURIComponent(form.studentName) + '&phone=' + encodeURIComponent(form.phone);
                         });
                 },
-                onClose: function() {
+                onClose: function () {
                     setLoading(false);
                 },
             });
@@ -162,10 +162,10 @@ function OrderPageContent() {
             <Script src="https://js.paystack.co/v1/inline.js" onLoad={() => setPaystackLoaded(true)} />
 
             {/* Header */}
-            <section style={{ background: 'linear-gradient(135deg, #009933 0%, #00802b 100%)', padding: '120px 0 70px', color: 'white', textAlign: 'center' }}>
-                <div className="container">
-                    <h1 style={{ fontSize: 'clamp(2rem,5vw,2.8rem)', color: 'white', fontWeight: 900, marginBottom: '0.75rem' }}>Order Your Package</h1>
-                    <p style={{ color: 'rgba(255,255,255,0.85)', fontSize: '1.05rem', marginBottom: '3rem' }}>
+            <section className="page-header" style={{ background: 'linear-gradient(135deg, #009933 0%, #00802b 100%)', padding: '120px 0 70px', color: 'white', textAlign: 'center' }}>
+                <div className="container" style={{ padding: '0 20px' }}>
+                    <h1 style={{ fontSize: 'clamp(2rem,5vw,2.8rem)', color: 'white', fontWeight: 900, marginBottom: '0.75rem', padding: '0 15px' }}>Order Your Package</h1>
+                    <p style={{ color: 'rgba(255,255,255,0.85)', fontSize: '1.05rem', marginBottom: '3rem', padding: '0 15px' }}>
                         Fill in the details below and pay securely with Paystack
                     </p>
 
